@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backframe — Turn your expertise into a product</title>
+<meta name="description" content="You build the audience and stay the face. We build the product and run the launch, quietly, in the background. No upfront cost — we earn a share only when it sells.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;900&family=Barlow+Condensed:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root{
+  --navy:#1A5276; --navy-dk:#0f3347; --navy-lt:#1d5f88;
+  --green:#1E8449; --green-lt:#25a35a; --green-dk:#165f34;
+  --white:#ffffff; --off-white:#f0f4f8; --light-bg:#e8eef4;
+  --ink:#0d2233; --text-mid:#2c4a5e; --muted:#5a7a8e;
+  --border:rgba(26,82,118,0.15);
+  --shadow:0 4px 24px rgba(15,51,71,0.10);
+  --shadow-lg:0 18px 56px rgba(15,51,71,0.20);
+  --font-display:'Barlow Condensed',Arial,sans-serif;
+  --font-body:'Barlow',Arial,sans-serif;
+  --radius:8px; --radius-lg:16px;
+}
+html{ scroll-behavior:smooth; }
+body{ font-family:var(--font-body); background:var(--off-white); color:var(--ink); line-height:1.65; overflow-x:hidden; }
+::-webkit-scrollbar{ width:7px; }
+::-webkit-scrollbar-track{ background:var(--light-bg); }
+::-webkit-scrollbar-thumb{ background:var(--navy); border-radius:4px; }
+::selection{ background:var(--green); color:#fff; }
+
+/* progress bar */
+#progress{ position:fixed; top:0; left:0; height:3px; width:0; z-index:200;
+  background:linear-gradient(90deg,var(--green),var(--green-lt)); transition:width .1s linear; }
+
+/* nav */
+nav{ position:fixed; top:0; left:0; right:0; z-index:100; height:68px; padding:0 6%;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(15,51,71,0); backdrop-filter:blur(0); border-bottom:1px solid transparent;
+  transition:background .35s ease, backdrop-filter .35s ease, border-color .35s ease; }
+nav.scrolled{ background:rgba(15,51,71,0.97); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.07); }
+.brand{ font-family:var(--font-display); font-weight:900; font-size:1.5rem; letter-spacing:.14em;
+  color:#fff; text-transform:uppercase; opacity:0; transform:translateY(-6px); transition:opacity .4s ease,transform .4s ease; }
+nav.scrolled .brand{ opacity:1; transform:none; }
+.brand span{ color:var(--green-lt); }
+.nav-cta{ font-family:var(--font-body); font-weight:600; font-size:.82rem; letter-spacing:.04em;
+  color:#fff; text-decoration:none; padding:.5rem 1.1rem; border:1px solid rgba(255,255,255,.4);
+  border-radius:var(--radius); opacity:0; transition:opacity .4s ease,background .25s ease,border-color .25s ease; }
+nav.scrolled .nav-cta{ opacity:1; }
+.nav-cta:hover{ background:var(--green); border-color:var(--green); }
+
+/* hero */
+.hero{ position:relative; min-height:100vh; display:flex; align-items:center;
+  padding:7rem 6% 5rem; color:#fff; overflow:hidden;
+  background:linear-gradient(150deg,var(--navy-dk) 0%,var(--navy) 55%,var(--navy-lt) 100%); }
+.hero::before{ content:""; position:absolute; inset:0;
+  background:radial-gradient(circle at 80% 18%,rgba(37,163,90,.20),transparent 42%),
+             radial-gradient(circle at 12% 88%,rgba(37,163,90,.12),transparent 40%); }
+.hero::after{ content:""; position:absolute; inset:0; opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:64px 64px; -webkit-mask-image:linear-gradient(180deg,#000,transparent 80%); mask-image:linear-gradient(180deg,#000,transparent 80%); }
+.hero-inner{ position:relative; z-index:2; max-width:880px; }
+.eyebrow{ display:inline-flex; align-items:center; gap:.6rem; font-family:var(--font-body);
+  font-weight:600; font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--green-lt); margin-bottom:1.6rem; }
+.eyebrow::before{ content:""; width:28px; height:2px; background:var(--green-lt); display:inline-block; }
+.hero h1{ font-family:var(--font-display); font-weight:900; line-height:.98;
+  font-size:clamp(2.7rem,7vw,5.2rem); letter-spacing:-.01em; text-transform:uppercase; margin-bottom:1.5rem; }
+.hero h1 .accent{ color:var(--green-lt); display:block; }
+.hero p.lede{ font-size:clamp(1.05rem,2vw,1.4rem); max-width:620px; color:rgba(255,255,255,.88);
+  font-weight:400; margin-bottom:2.6rem; }
+.hero-actions{ display:flex; flex-wrap:wrap; gap:1rem 1.4rem; align-items:center; }
+.btn{ font-family:var(--font-body); font-weight:700; font-size:.95rem; letter-spacing:.02em;
+  text-decoration:none; padding:1rem 2rem; border-radius:var(--radius); cursor:pointer; border:none;
+  display:inline-flex; align-items:center; gap:.6rem; transition:transform .2s ease,box-shadow .25s ease,background .25s ease; }
+.btn-primary{ background:var(--green); color:#fff; box-shadow:0 8px 28px rgba(30,132,73,.4); }
+.btn-primary:hover{ background:var(--green-lt); transform:translateY(-3px); box-shadow:0 14px 38px rgba(30,132,73,.5); }
+.btn-primary .arrow{ transition:transform .2s ease; }
+.btn-primary:hover .arrow{ transform:translateX(4px); }
+.hero-actions .alt{ font-size:.92rem; color:rgba(255,255,255,.72); }
+.hero-actions .alt a{ color:#fff; text-decoration:underline; text-underline-offset:3px; text-decoration-color:rgba(255,255,255,.4); }
+.hero-actions .alt a:hover{ text-decoration-color:var(--green-lt); }
+
+.scroll-hint{ position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); z-index:2;
+  color:rgba(255,255,255,.5); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
+  display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+.scroll-hint .dot{ width:5px; height:5px; border-radius:50%; background:var(--green-lt); animation:fall 1.6s ease-in-out infinite; }
+@keyframes fall{ 0%{transform:translateY(-6px);opacity:0;} 50%{opacity:1;} 100%{transform:translateY(8px);opacity:0;} }
+
+/* sections */
+section{ padding:6.5rem 6%; }
+.sec-head{ max-width:760px; margin:0 auto 3.5rem; text-align:center; }
+.sec-tag{ font-family:var(--font-body); font-weight:700; font-size:.76rem; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--green); margin-bottom:1rem; }
+.sec-head h2{ font-family:var(--font-display); font-weight:900; text-transform:uppercase;
+  font-size:clamp(2rem,4.4vw,3.1rem); line-height:1.02; color:var(--navy-dk); letter-spacing:-.01em; }
+.sec-head p{ margin-top:1.2rem; font-size:1.08rem; color:var(--text-mid); }
+
+/* the gap (problem framing) */
+.gap{ background:var(--white); }
+.gap-grid{ max-width:920px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; }
+.gap-card{ padding:2rem 1.8rem; border-radius:var(--radius-lg); border:1px solid var(--border); background:var(--off-white); }
+.gap-card.you{ border-top:4px solid var(--navy); }
+.gap-card.gap-h{ border-top:4px solid var(--green); }
+.gap-card h3{ font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+  font-size:1.25rem; color:var(--navy-dk); margin-bottom:.9rem; }
+.gap-card p{ color:var(--text-mid); font-size:1rem; }
+.gap-card .em{ color:var(--green-dk); font-weight:600; }
+
+/* how it works — stepper */
+.how{ background:linear-gradient(180deg,var(--off-white),var(--light-bg)); }
+.steps{ max-width:880px; margin:0 auto; display:flex; flex-direction:column; gap:0; position:relative; }
+.steps::before{ content:""; position:absolute; left:27px; top:30px; bottom:30px; width:2px;
+  background:linear-gradient(var(--green),var(--navy-lt)); opacity:.35; }
+.step{ display:flex; gap:1.6rem; padding:1.4rem 0; align-items:flex-start; position:relative; }
+.step-num{ flex:0 0 56px; height:56px; width:56px; border-radius:50%; background:var(--white);
+  border:2px solid var(--green); color:var(--green-dk); font-family:var(--font-display); font-weight:900;
+  font-size:1.5rem; display:flex; align-items:center; justify-content:center; z-index:2;
+  box-shadow:var(--shadow); transition:transform .3s ease,background .3s ease,color .3s ease; }
+.step:hover .step-num{ background:var(--green); color:#fff; transform:scale(1.08); }
+.step-body h3{ font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:.03em;
+  font-size:1.2rem; color:var(--navy-dk); margin:.4rem 0 .5rem; }
+.step-body p{ color:var(--text-mid); font-size:1rem; max-width:620px; }
+
+/* what you keep */
+.keep{ background:var(--navy-dk); color:#fff; }
+.keep .sec-head h2{ color:#fff; }
+.keep .sec-head .sec-tag{ color:var(--green-lt); }
+.keep-grid{ max-width:980px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; }
+.keep-card{ padding:1.8rem 1.5rem; border-radius:var(--radius-lg); background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.10); transition:transform .3s ease,background .3s ease,border-color .3s ease; }
+.keep-card:hover{ transform:translateY(-6px); background:rgba(37,163,90,.12); border-color:rgba(37,163,90,.4); }
+.keep-card .ic{ width:42px; height:42px; margin-bottom:1rem; color:var(--green-lt); }
+.keep-card h3{ font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+  font-size:1.1rem; margin-bottom:.5rem; }
+.keep-card p{ color:rgba(255,255,255,.78); font-size:.95rem; }
+
+/* the deal / risk reversal */
+.deal{ background:var(--white); }
+.deal-box{ max-width:760px; margin:0 auto; text-align:center; padding:3rem 2.4rem;
+  border-radius:var(--radius-lg); background:linear-gradient(150deg,var(--navy),var(--navy-lt));
+  color:#fff; box-shadow:var(--shadow-lg); position:relative; overflow:hidden; }
+.deal-box::after{ content:""; position:absolute; inset:0; opacity:.4;
+  background:radial-gradient(circle at 85% 20%,rgba(37,163,90,.30),transparent 45%); }
+.deal-split{ position:relative; z-index:2; display:flex; justify-content:center; align-items:stretch;
+  gap:0; margin:1.8rem auto 1.4rem; max-width:420px; border-radius:var(--radius); overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,.25); }
+.deal-share{ flex:0 0 70%; background:var(--green); padding:1.3rem 1rem; }
+.deal-share.op{ flex:0 0 30%; background:rgba(255,255,255,.14); }
+.deal-share .pct{ font-family:var(--font-display); font-weight:900; font-size:2.4rem; line-height:1; }
+.deal-share .who{ font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; margin-top:.35rem; opacity:.92; }
+.deal-box h2{ font-family:var(--font-display); font-weight:900; text-transform:uppercase;
+  font-size:clamp(1.8rem,4vw,2.6rem); position:relative; z-index:2; line-height:1.05; }
+.deal-box p.sub{ position:relative; z-index:2; color:rgba(255,255,255,.9); font-size:1.05rem; max-width:520px; margin:1.2rem auto 0; }
+.deal-box .fineprint{ position:relative; z-index:2; font-size:.85rem; color:rgba(255,255,255,.65); margin-top:1.4rem; }
+
+/* faq */
+.faq{ background:var(--off-white); }
+.faq-list{ max-width:760px; margin:0 auto; }
+.faq-item{ border:1px solid var(--border); border-radius:var(--radius); background:var(--white);
+  margin-bottom:.9rem; overflow:hidden; transition:box-shadow .25s ease,border-color .25s ease; }
+.faq-item.open{ box-shadow:var(--shadow); border-color:rgba(30,132,73,.4); }
+.faq-q{ width:100%; text-align:left; background:none; border:none; cursor:pointer;
+  padding:1.3rem 1.5rem; font-family:var(--font-body); font-weight:600; font-size:1.05rem; color:var(--navy-dk);
+  display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+.faq-q .pm{ flex:0 0 auto; width:22px; height:22px; position:relative; transition:transform .3s ease; }
+.faq-q .pm::before,.faq-q .pm::after{ content:""; position:absolute; background:var(--green); border-radius:2px; }
+.faq-q .pm::before{ top:10px; left:0; right:0; height:2px; }
+.faq-q .pm::after{ left:10px; top:0; bottom:0; width:2px; transition:transform .3s ease; }
+.faq-item.open .pm::after{ transform:scaleY(0); }
+.faq-a{ max-height:0; overflow:hidden; transition:max-height .35s ease; }
+.faq-a-inner{ padding:0 1.5rem 1.3rem; color:var(--text-mid); font-size:1rem; }
+
+/* final cta */
+.final{ background:linear-gradient(150deg,var(--navy-dk),var(--navy)); color:#fff; text-align:center; }
+.final h2{ font-family:var(--font-display); font-weight:900; text-transform:uppercase;
+  font-size:clamp(2rem,5vw,3.4rem); line-height:1.02; margin-bottom:1.2rem; }
+.final p{ max-width:560px; margin:0 auto 2.4rem; color:rgba(255,255,255,.85); font-size:1.1rem; }
+.final .alt{ margin-top:1.4rem; font-size:.92rem; color:rgba(255,255,255,.7); }
+.final .alt a{ color:#fff; text-decoration:underline; text-underline-offset:3px; }
+
+footer{ background:var(--navy-dk); color:rgba(255,255,255,.5); text-align:center;
+  padding:2.2rem 6%; font-size:.82rem; border-top:1px solid rgba(255,255,255,.07); }
+footer .fb{ font-family:var(--font-display); font-weight:900; letter-spacing:.14em; color:rgba(255,255,255,.7); }
+
+/* reveal animation */
+.reveal{ opacity:0; transform:translateY(28px); transition:opacity .7s ease,transform .7s ease; }
+.reveal.in{ opacity:1; transform:none; }
+.reveal.d1{ transition-delay:.08s; } .reveal.d2{ transition-delay:.16s; } .reveal.d3{ transition-delay:.24s; }
+
+@media(max-width:720px){
+  .gap-grid{ grid-template-columns:1fr; }
+  .keep-grid{ grid-template-columns:1fr; }
+  .hero{ padding-top:6rem; }
+  .scroll-hint{ display:none; }
+  section{ padding:4.5rem 7%; }
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<nav id="nav">
+  <div class="brand">BACK<span>FRAME</span></div>
+  <a href="#start" class="nav-cta">Start the conversation</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">For creators with an audience</div>
+    <h1>Your knowledge<br><span class="accent">deserves a product.</span></h1>
+    <p class="lede">You've built the audience and the trust. We build the product and run the launch — quietly, in the background. You stay the face of everything. We only earn when it sells.</p>
+    <div class="hero-actions">
+      <a href="#start" class="btn btn-primary">Start the conversation <span class="arrow">&rarr;</span></a>
+      <span class="alt">or just reply to the message that sent you here.</span>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>How it works</span><span class="dot"></span></div>
+</header>
+
+<!-- THE GAP -->
+<section class="gap">
+  <div class="sec-head reveal">
+    <div class="sec-tag">The gap</div>
+    <h2>You teach for free. There's nothing to buy.</h2>
+    <p>Most creators sit on genuinely valuable knowledge with no easy way for their audience to pay for it. The idea isn't the hard part — packaging and launching it is.</p>
+  </div>
+  <div class="gap-grid">
+    <div class="gap-card you reveal d1">
+      <h3>What you already have</h3>
+      <p>An engaged audience, a method that works, and the trust of people who'd happily go deeper with you. <span class="em">That's the hard part — and it's done.</span></p>
+    </div>
+    <div class="gap-card gap-h reveal d2">
+      <h3>What's missing</h3>
+      <p>The time and the system to turn it into a real product, get it built properly, and actually launch it. <span class="em">That's the part we handle.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="sec-head reveal">
+    <div class="sec-tag">How it works</div>
+    <h2>Four steps. You stay the face.</h2>
+    <p>A simple, low-pressure process built around your audience and your voice.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">1</div>
+      <div class="step-body"><h3>We find the product</h3>
+      <p>Together we figure out the right first product from what you already teach — what to include, what to leave out, and how it should feel to your audience.</p></div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">2</div>
+      <div class="step-body"><h3>We build it</h3>
+      <p>We do the work of turning your knowledge into a polished, ready-to-sell product. You review and approve; we handle the rest.</p></div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">3</div>
+      <div class="step-body"><h3>We run the launch</h3>
+      <p>We plan and run a simple, calm launch to your audience — the posts, the sequence, the timing. You stay the voice; we work behind it.</p></div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">4</div>
+      <div class="step-body"><h3>It keeps earning</h3>
+      <p>The product stays live and continues to sell. You keep full ownership, and you can buy out the arrangement entirely down the line if you choose.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU KEEP -->
+<section class="keep">
+  <div class="sec-head reveal">
+    <div class="sec-tag">No strings</div>
+    <h2>It's yours. All of it.</h2>
+  </div>
+  <div class="keep-grid">
+    <div class="keep-card reveal d1">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      <h3>Your face</h3>
+      <p>Your audience sees you, always. We never appear — the work is invisible by design.</p>
+    </div>
+    <div class="keep-card reveal d2">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg>
+      <h3>Your audience</h3>
+      <p>Your followers, your list, your relationships — they stay entirely yours.</p>
+    </div>
+    <div class="keep-card reveal d3">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 4v6c0 5-4 7-8 8-4-1-8-3-8-8V7z"/></svg>
+      <h3>Full ownership</h3>
+      <p>You own the product outright. The arrangement is yours to end with a buyout whenever you want.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THE DEAL -->
+<section class="deal">
+  <div class="sec-head reveal">
+    <div class="sec-tag">The arrangement</div>
+    <h2>You keep the larger share. We carry the risk.</h2>
+    <p>No upfront cost. No retainer. We work on a revenue share — so we only earn when you do.</p>
+  </div>
+  <div class="deal-box reveal d1">
+    <h2>No upfront cost</h2>
+    <div class="deal-split">
+      <div class="deal-share"><div class="pct">70%</div><div class="who">You keep</div></div>
+      <div class="deal-share op"><div class="pct">30%</div><div class="who">We earn</div></div>
+    </div>
+    <p class="sub">A simple 70/30 split on what the product makes. If it doesn't sell, you owe nothing — the risk sits with us, not you.</p>
+    <p class="fineprint">Exact terms are agreed in writing before anything launches. Nothing is locked in until you're comfortable.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="sec-head reveal">
+    <div class="sec-tag">Questions</div>
+    <h2>The things people ask</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item reveal">
+      <button class="faq-q">Will my audience know someone else is involved? <span class="pm"></span></button>
+      <div class="faq-a"><div class="faq-a-inner">No. The whole arrangement is built so you stay the only face your audience sees. We work entirely in the background — that's the point.</div></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q">What does it cost me to start? <span class="pm"></span></button>
+      <div class="faq-a"><div class="faq-a-inner">Nothing upfront. There's no fee and no retainer. We earn a share only when the product sells, so we're only worth your time if it actually works.</div></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q">Who owns the product? <span class="pm"></span></button>
+      <div class="faq-a"><div class="faq-a-inner">You do. You keep full ownership throughout, and you can buy out the revenue-share arrangement entirely after a set period if you'd like complete independence.</div></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q">How much of my time will this take? <span class="pm"></span></button>
+      <div class="faq-a"><div class="faq-a-inner">Far less than doing it yourself. You bring the knowledge and approve the direction; we carry the building and the launch. Most of the heavy lifting is ours.</div></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q">What kind of product is it? <span class="pm"></span></button>
+      <div class="faq-a"><div class="faq-a-inner">Usually a focused digital product drawn from what you already teach — a guide, a program, or a resource your audience would genuinely use. We figure out the right fit together before building anything.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final" id="start">
+  <div class="reveal">
+    <h2>Curious what yours<br>would look like?</h2>
+    <p>No pitch, no pressure — just a short conversation about what a product for your audience could be.</p>
+    <a href="#" id="emailBtn" class="btn btn-primary">Start the conversation <span class="arrow">&rarr;</span></a>
+    <p class="alt">or simply reply to the message that sent you here.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="fb">BACKFRAME</div>
+  <div style="margin-top:.5rem;">Your product. Your face. Quietly supported.</div>
+</footer>
+
+<script>
+// ---- email CTA: pre-fill subject + body (edit the address before publishing) ----
+(function(){
+  var address = "hello@backframe.example";   // TODO: replace with your real contact email
+  var subject = encodeURIComponent("A product for my audience");
+  var body = encodeURIComponent("Hi Backframe,\n\nI saw your page about turning my content into a product. I'd like to hear more about how it works.\n\nMy handle / audience: \nWhat I create about: \n\nThanks,\n");
+  var link = "mailto:" + address + "?subject=" + subject + "&body=" + body;
+  document.getElementById('emailBtn').setAttribute('href', link);
+  document.querySelectorAll('.nav-cta').forEach(function(a){ /* nav scrolls to #start, leave as is */ });
+})();
+
+// ---- nav scroll state + progress bar ----
+var nav = document.getElementById('nav');
+var progress = document.getElementById('progress');
+function onScroll(){
+  var y = window.scrollY || document.documentElement.scrollTop;
+  if(y > 40){ nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
+  var h = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = (h>0 ? (y/h)*100 : 0) + "%";
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+// ---- scroll reveal ----
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:0.16});
+document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+// ---- FAQ accordion ----
+document.querySelectorAll('.faq-q').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var item = btn.parentElement;
+    var ans = item.querySelector('.faq-a');
+    var isOpen = item.classList.contains('open');
+    // close others
+    document.querySelectorAll('.faq-item.open').forEach(function(other){
+      if(other!==item){ other.classList.remove('open'); other.querySelector('.faq-a').style.maxHeight = null; }
+    });
+    if(isOpen){ item.classList.remove('open'); ans.style.maxHeight = null; }
+    else { item.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + "px"; }
+  });
+});
+</script>
+</body>
+</html>
